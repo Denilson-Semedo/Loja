@@ -10,14 +10,20 @@ import java.util.Scanner;
 
 /**
  **@author Denilson
- **/
+ *
+ */
 public class Loja {
 
     /**
-     ** @param args the command line arguments
-     **/
+     *
+     */
+    
+    //*Uma arraylist para guardar o codigo dos produtos que estão em promoção*
+    public static ArrayList<int[]> promocao = new ArrayList<>();
+
+    //*Conjunto de menus que fazem parte do programa*
     static void Menu1() {
-        System.out.println("\n\n::::::::::::LOJA::::::::::::");
+        System.out.println("\n\n::::::::::::LOJA::::::::::::\n");
         System.out.println("1<->Produtos;");
         System.out.println("2<->Encomendas;");
         System.out.println("3<->Clientes;");
@@ -26,7 +32,7 @@ public class Loja {
     }
 
     static void Menup() {
-        System.out.println("\n\n::::::::::::GERIR PRODUTOS::::::::::::");
+        System.out.println("\n\n::::::::::::GERIR PRODUTOS::::::::::::\n");
         System.out.println("1<->Adcionar;");
         System.out.println("2<->Ver;");
         System.out.println("3<->Remover");
@@ -34,7 +40,7 @@ public class Loja {
     }
 
     static void Menue() {
-        System.out.println("\n\n::::::::::::GERIR ENCOMENDAS::::::::::::");
+        System.out.println("\n\n::::::::::::GERIR ENCOMENDAS::::::::::::\n");
         System.out.println("1<->Adcionar;");
         System.out.println("2<->Ver;");
         System.out.println("3<->Remover");
@@ -42,7 +48,7 @@ public class Loja {
     }
 
     static void Menuc() {
-        System.out.println("\n\n::::::::::::GERIR CLIENTES::::::::::::");
+        System.out.println("\n\n::::::::::::GERIR CLIENTES::::::::::::\n");
         System.out.println("1<->Adcionar;");
         System.out.println("2<->Ver;");
         System.out.println("3<->Ver encomendas do cliente;");
@@ -51,7 +57,7 @@ public class Loja {
     }
 
     static void Menupro() {
-        System.out.println("\n\n::::::::::::GERIR PROMOÇÃO::::::::::::");
+        System.out.println("\n\n::::::::::::GERIR PROMOÇÃO::::::::::::\n");
         System.out.println("1<->Adcionar;");
         System.out.println("2<->Ver;");
         System.out.println("3<->Remover");
@@ -61,21 +67,20 @@ public class Loja {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         Scanner input2 = new Scanner(System.in);
-
+        
+        //*Conjunto de arraulist para armazenar os objetos instanciados*
         ArrayList<Produto> produtos = new ArrayList<>();
-        ArrayList<Produto> produtosEn = new ArrayList<>();
         ArrayList<Encomenda> encomendas = new ArrayList<>();
         ArrayList<Cliente> clientes = new ArrayList<>();
-        ArrayList<int[]> promocao = new ArrayList<>();
 
         Produto p;
         Cliente c;
         Encomenda e = new Encomenda();
 
-        //Variaveis para controlar os menus
+        //*Variaveis para controlar os menus*
         int menu, menup, menue, menuc, menupro;
 
-        //*Variaveis para inserir um produto
+        //*Variaveis para inserir um produto*
         int codigop;
         String desig;
         double preco;
@@ -103,8 +108,8 @@ public class Loja {
                         menup = input.nextInt();
 
                         switch (menup) {
-                            case 1:
-                                System.out.println("<>Designaçaõ do produto:");
+                            case 1://*Criar um produto*
+                                System.out.println("<>Designaçaõ/Nome do produto:");
                                 desig = input2.nextLine();
                                 int x;
                                 do {
@@ -114,29 +119,37 @@ public class Loja {
                                     for (Produto i : produtos) {
                                         if (codigop == i.getCodigo()) {
                                             x++;
-                                            System.out.println("\n\tO codigo do produto não pode repetir\n");
+                                            System.err.println("\n\tO codigo do produto não pode repetir\n");
                                             break;
                                         }
                                     }
                                 } while (x != 0);
                                 System.out.println("<>Preço do produto:");
                                 preco = input.nextDouble();
-
+                                
+                                //*instancia um objeto da classe Produto*
                                 p = new Produto(codigop, desig, preco);
+                                //*Adiciona o objecto instanciado na lista de produtos da loja*
                                 produtos.add(p);
 
                                 System.out.println("\n\tProduto Adcionado!");
                                 break;
                             case 2:
+                                //*Imprime todos os produtos contido na lista de produtos*
                                 if (!produtos.isEmpty()) {
+                                    System.out.println("__________________________________________");
+                                    System.out.println("|   CÓDIGO  |    NOME    |   PREÇO(ECV)  |");
+                                    System.out.println("|-----------+------------+---------------|");
                                     for (Produto i : produtos) {
                                         i.imprimir();
                                     }
+                                    System.out.println("|========================================|");
                                 } else {
-                                    System.out.println("Não existe nenhum produto na lista!!");
+                                    System.err.println("Não existe nenhum produto na lista!!");
                                 }
                                 break;
                             case 3:
+                                //*Verifica e Remove um produto*
                                 if (!produtos.isEmpty()) {
                                     System.out.println("<>Codigo do produto:");
                                     cod = input.nextInt();
@@ -147,9 +160,10 @@ public class Loja {
                                             System.out.println("\n\tProduto removido!!");
                                             break;
                                         }
+                                        System.err.println("Não existe nenhum produto com este código");
                                     }
                                 } else {
-                                    System.out.println("Não existe nenhum produto na lista!!");
+                                    System.err.println("Não existe nenhum produto na lista!!");
                                 }
                                 break;
                             case 4:
@@ -167,28 +181,57 @@ public class Loja {
                         menue = input.nextInt();
 
                         switch (menue) {
+                            //Criar encomenda
                             case 1:
                                 if (!clientes.isEmpty()) {
-                                    System.out.println("Numero da Encomenda:");
-                                    nEm = input.nextInt();
-                                    System.out.println("Ano em que a encomenda foi feita:");
-                                    aEm = input.nextInt();
-                                    System.out.println("Codigo do Cliente associado:");
-                                    coC = input.nextInt();
-
-                                    int op = 0;
+                                    //*instancia um objeto da classe encomenda*
+                                    e = new Encomenda();
                                     int x;
                                     do {
-                                        System.out.println("Codigo do produto:");
-                                        x = input.nextInt();
-                                        for (Produto pr : produtos) {
-
-                                            if (x == pr.getCodigo()) {
-                                                produtosEn.add(pr);
+                                        x = 0;
+                                        System.out.println("Numero da Encomenda:");
+                                        nEm = input.nextInt();
+                                        for (Encomenda enc : encomendas) {
+                                            if (nEm == enc.nEncomenda) {
+                                                x++;
+                                                System.err.println("\n\tJá existe uma encomenda com este código!\n");
                                                 break;
                                             }
-
                                         }
+                                    } while (x != 0);
+                                    System.out.println("Ano em que a encomenda foi feita:");
+                                    aEm = input.nextInt();
+                                    boolean op1 = false;
+                                    do {
+                                        System.out.println("Codigo do Cliente associado:");
+                                        coC = input.nextInt();
+                                        for (Cliente cli : clientes) {
+
+                                            if (coC == cli.getCodigo()) {
+                                                op1 = true;
+                                                break;
+                                            }
+                                        }
+                                        if(!op1){System.err.println("Código de Cliente inexistente, tente novamente");}
+                                    } while (op1 != true);
+                                    int op;
+                                    op1 = false;
+                                    int y;
+                                    do {
+                                        //*Adicionando produtos na lista de produtos da objecto encomenda*
+                                        do {
+                                            System.out.println("Codigo do produto:");
+                                            y = input.nextInt();
+                                            for (Produto pr : produtos) {
+
+                                                if (y == pr.getCodigo()) {
+                                                    e.adicionarProduto(pr);
+                                                    op1 = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(!op1){System.err.println("Código de produto inexistente\n Tente novamente");}
+                                        } while (op1 != true);
                                         System.out.println("1<->Adicionar outro produtona encomenda;");
                                         System.out.println("2<->Concluido;");
                                         op = input.nextInt();
@@ -198,26 +241,37 @@ public class Loja {
                                             case 2:
                                                 break;
                                             default:
-                                                System.out.println("Opção invalida");
+                                                System.err.println("Opção invalida");
                                                 break;
                                         }
                                     } while (op != 2);
-                                    e = new Encomenda(nEm, coC, aEm, new ArrayList<Produto>(produtosEn));
-                                    encomendas.add(e);                                    
+                                 
+                                    //*Adiciona o objecto instanciado na lista de encomendaas da loja*
+                                    e.nEncomenda = nEm;
+                                    e.codigoCliente = coC;
+                                    e.ano = aEm;
+                                    encomendas.add(e);
                                 } else {
-                                    System.out.println("Não existe nenhum cliente na lista!!");
+                                    System.err.println("Não existe nenhum cliente na lista!!");
                                 }
                                 break;
                             case 2:
+                                //*Imprimir encomendas*
                                 if (!encomendas.isEmpty()) {
+                                    System.out.println("______________________________________________________________________");
+                                    System.out.println("| Nº ENCOMENDA |  ANO  | COD.CLIENTE |  PRODUTOS  | PREÇO TOTAL(ECV) |");
+                                    System.out.println("|--------------+-------+-------------+------------+------------------|");
                                     for (Encomenda en : encomendas) {
                                         en.verEncomenda();
+                                        System.out.println("|--------------+-------+-------------+------------+------------------|");
                                     }
+                                    System.out.println("|====================================================================|");
                                 } else {
-                                    System.out.println("Ainda não foi feita nenhuma encomenda!!");
+                                    System.err.println("Ainda não foi feita nenhuma encomenda!!");
                                 }
                                 break;
                             case 3:
+                                //*Remover Encomenda*
                                 if (!encomendas.isEmpty()) {
                                     int coden;
                                     System.out.println("Codigo da encomenda!");
@@ -228,11 +282,11 @@ public class Loja {
                                         }
                                         break;
                                     }
-                                    System.out.println("Não existe nenhuma encomenda com este codigo;");
+                                    System.err.println("Não existe nenhuma encomenda com este codigo;");
                                 } else {
-                                    System.out.println("Ainda não foi feito nenhuma encomendada!!!");
+                                    System.err.println("Ainda não foi feito nenhuma encomendada!!!");
                                 }
-                                
+
                                 break;
                             case 4:
                                 break;
@@ -250,6 +304,7 @@ public class Loja {
 
                         switch (menuc) {
                             case 1:
+                                //*criar um cliente*
                                 System.out.println("Nome:");
                                 nomec = input2.nextLine();
                                 System.out.println("Email:");
@@ -266,47 +321,63 @@ public class Loja {
                                     for (Cliente i : clientes) {
                                         if (codigoc == i.getCodigo()) {
                                             x++;
-                                            System.out.println("\n\tO codigo do cliente não pode repetir\n");
+                                            System.err.println("\n\tO codigo do cliente não pode repetir\n");
                                             break;
                                         }
                                     }
                                 } while (x != 0);
-
+                                //*instanciar um objecto da classe encomenda*
                                 c = new Cliente(nomec, email, telf, morada, codigoc);
+                                //*Adicionar o objecto instanciado na lista de clientes da loja*
                                 clientes.add(c);
                                 break;
                             case 2:
+                                //*Imprimir clientes*
                                 if (!clientes.isEmpty()) {
+                                    System.out.println("________________________________________________________________________________________");
+                                    System.out.println("|  CODIGO  |    NOME    |  TELEFONE  |               EMAIL              |    MORADA    |");
+                                    System.out.println("|----------+------------+------------+----------------------------------+--------------|");
                                     for (Cliente i : clientes) {
                                         i.imprimir();
                                     }
+                                    System.out.println("|======================================================================================|");
                                 } else {
-                                    System.out.println("Não existe nenhum cliente na lista!!");
+                                    System.err.println("Não existe nenhum cliente na lista!!");
                                 }
                                 break;
                             case 3:
+                                //*Imprimir encomendas de um cliente*
                                 if (!clientes.isEmpty()) {
                                     System.out.println("<>Codigo do cliente:");
                                     codc = input.nextInt();
-                                    int y = 0;
+                                    boolean y = false;
+                                    boolean y1 = false;
                                     for (Cliente i : clientes) {
                                         if (codc == i.getCodigo()) {
                                             for (Encomenda l : encomendas) {
                                                 if (codc == l.getCodigoCliente()) {
                                                     l.verEncomenda();
-                                                    y++;
+                                                    y = true;
+                                                    break;
                                                 }
                                             }
+                                            y1 = true;
                                         }
                                     }
-                                    if (y > 0) {
-                                        System.out.println("\nO cliente não possui nenhuma encomenda!");
+                                    if (!y1) {
+                                        System.err.println("Codigo do cliente inexistente!!");
+                                        y1 = false;
+                                    }
+                                    if (!y) {
+                                        System.err.println("O cliente não possui nenhuma encomenda!");
+                                        y = false;
                                     }
                                 } else {
-                                    System.out.println("Não existe nenhum cliente na lista!!");
+                                    System.err.println("Não existe nenhum cliente na lista!!");
                                 }
                                 break;
                             case 4:
+                                //*Remover um cliente*
                                 if (!clientes.isEmpty()) {
                                     System.out.println("<>Codigo do cliente:");
                                     codc = input.nextInt();
@@ -318,8 +389,9 @@ public class Loja {
                                             break;
                                         }
                                     }
+                                    System.err.println("Não existe nenhum cliente com este código");
                                 } else {
-                                    System.out.println("Não existe nenhum cliente na lista!!");
+                                    System.err.println("Não existe nenhum cliente na lista!!");
                                 }
 
                                 break;
@@ -333,12 +405,13 @@ public class Loja {
                     } while (menuc != 5);
 
                     break;
-                case 4:
+                case 4://*Promoção*
                     do {
                         Menupro();
                         menupro = input.nextInt();
                         switch (menupro) {
                             case 1:
+                                //*Criar promoção*
                                 if (!produtos.isEmpty()) {
                                     System.out.println("Codigo do Produto:");
                                     codp = input.nextInt();
@@ -353,31 +426,33 @@ public class Loja {
                                             break;
                                         }
                                     }
-                                    System.out.println("Produto Inexistente!!");
+                                    System.err.println("Produto Inexistente!!");
                                 } else {
-                                    System.out.println("Ainda não foi adcionado nenhum produto na lista");
+                                    System.err.println("Ainda não foi adcionado nenhum produto na lista");
                                 }
                                 break;
                             case 2:
+                                //*Imprimir promoções*
                                 if (!promocao.isEmpty()) {
                                     for (int[] pro : promocao) {
-                                        System.out.println(pro[0]);
-                                        System.out.println(pro[1]);
+                                        /*System.out.println(pro[0]);
+                                        System.out.println(pro[1]);*/
                                         for (Produto pd : produtos) {
                                             if (pro[0] == pd.getCodigo()) {
-                                                System.out.println("\nDesignação: " + pd.getDesignacao());
-                                                System.out.println("Codigo Produto: " + pd.getCodigo());
-                                                System.out.println("Desconto de Promoção: " + pro[1] + "%");
-                                                System.out.println("Preço real: " + pd.getPreco() + "$00");
-                                                System.out.println("Preço com desconto: " + pd.desconto(pro[1]) + "$00");
+                                                System.out.println("___________________________________________________________________________________________");
+                                                System.out.println("| DESIGNAÇÃO/NOME | COD.PRODUTO | PREÇO REAL(ECV) | DESCONTO(%) | PREÇO COM DESCONTO(ECV) |");
+                                                System.out.println("|-----------------+-------------+-----------------+-------------+-------------------------|");
+                                                System.out.printf("|%15s%3s%11d%3s%15.2f%3s%11d%3s%25.2f|\n", pd.getDesignacao(), "|", pd.getCodigo(), "|", pd.getPreco(), "|", pro[1], "|", pd.desconto(pro[1]));
                                             }
                                         }
                                     }
+                                    System.out.println("|_________________________________________________________________________________________|");
                                 } else {
-                                    System.out.println("Ainda não foi adcionado nenhuma promoção!!");
+                                    System.err.println("Ainda não foi adcionado nenhuma promoção!!");
                                 }
                                 break;
                             case 3:
+                                //*Remover promoção*
                                 if (!promocao.isEmpty()) {
                                     System.out.println("Codigo do produto");
                                     codipr = input.nextInt();
@@ -388,9 +463,9 @@ public class Loja {
                                         System.out.println("Removido!!");
                                         break;
                                     }
-                                    System.out.println("Este produto não está na lista de promoção!!");
+                                    System.err.println("Este produto não está na lista de promoção!!");
                                 } else {
-                                    System.out.println("Ainda não foi adcionado nenhuma promoção!!");
+                                    System.err.println("Ainda não foi adcionado nenhuma promoção!!");
                                 }
                                 break;
                             case 4:
