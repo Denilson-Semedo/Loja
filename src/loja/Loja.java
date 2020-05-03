@@ -5,6 +5,12 @@
  */
 package loja;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,6 +23,14 @@ public class Loja {
     /**
      *
      */
+    //*Conjunto de arraylist para armazenar os objetos instanciados*
+    public static ArrayList<Produto> produtos = new ArrayList<>();
+    public static ArrayList<Encomenda> encomendas = new ArrayList<>();
+    public static ArrayList<Cliente> clientes = new ArrayList<>();
+
+    public static Produto p;
+    public static Cliente c;
+    public static Encomenda e = new Encomenda();
     
     //*Uma arraylist para guardar o codigo dos produtos que estão em promoção*
     public static ArrayList<int[]> promocao = new ArrayList<>();
@@ -63,19 +77,169 @@ public class Loja {
         System.out.println("3<->Remover");
         System.out.println("\n4<->SAIR:");
     }
-
-    public static void main(String[] args) {
+    
+    public static void escrever() throws IOException{
+        FileOutputStream arq = null;
+        
+        //Produtos
+        try{
+            arq = new FileOutputStream("Produtos.arq");
+            ObjectOutputStream obj = new ObjectOutputStream(arq);
+            for(Produto p : produtos){
+                obj.writeObject(p);
+            }
+       }catch(FileNotFoundException erro){
+            erro.printStackTrace();
+            System.out.println("Tentativa de abrir o arquivo indicado para escrita falhou!");
+        }catch(IOException erro){
+            erro.printStackTrace();
+            System.out.println("Algo ocorreu mal!");
+        }finally{
+            arq.close();
+        }
+        
+        //Clientes
+        try{
+            arq = new FileOutputStream("Clientes.arq");
+            ObjectOutputStream obj = new ObjectOutputStream(arq);
+            for(Cliente c : clientes){
+                obj.writeObject(c);
+            }
+        }catch(FileNotFoundException erro){
+            erro.printStackTrace();
+            System.out.println("Tentativa de abrir o arquivo indicado para escrita falhou!");
+        }catch(IOException erro){
+            erro.printStackTrace();
+            System.out.println("Algo ocorreu mal!");
+        }finally{
+            arq.close();
+        }
+        
+        //Encomendas
+        try{
+            arq = new FileOutputStream("Encomendas.arq");
+            ObjectOutputStream obj = new ObjectOutputStream(arq);
+            for(Encomenda e : encomendas){
+                obj.writeObject(e);
+            }
+        }catch(FileNotFoundException erro){
+            erro.printStackTrace();
+            System.out.println("Tentativa de abrir o arquivo indicado para escrita falhou!");
+        }catch(IOException erro){
+            erro.printStackTrace();
+            System.out.println("Algo ocorreu mal!");
+        }finally{
+            arq.close();
+        }
+        
+        /*//Promocoes
+        try{
+            arq = new FileOutputStream("Promocoes.arq");
+            ObjectOutputStream obj = new ObjectOutputStream(arq);
+            for(Promocao pro : lista_Promocoes){
+                obj.writeObject(pro);
+            }
+        }catch(FileNotFoundException erro){
+            erro.printStackTrace();
+            System.out.println("Tentativa de abrir o arquivo indicado para escrita falhou!");
+        }catch(IOException erro){
+            erro.printStackTrace();
+            System.out.println("Algo ocorreu mal!");
+        }finally{
+            arq.close();
+        }*/
+        
+    }
+    
+    public static void ler() throws IOException, ClassNotFoundException{
+        FileInputStream arq = null;
+        
+        //Produtos
+        try{
+            arq = new FileInputStream("Produtos.arq");
+            ObjectInputStream obj = new ObjectInputStream(arq);
+            
+            while(arq.available()>0)
+                produtos.add((Produto)obj.readObject());
+            
+        }catch(FileNotFoundException erro){
+            erro.printStackTrace();
+            System.out.println("Tentativa de abrir o arquivo indicado para Leitura falhou!");
+        }catch(IOException erro){
+            erro.printStackTrace();
+            System.out.println("Algo ocorreu mal!");
+        }finally{
+            arq.close();
+        }
+        
+        //Clientes
+        try{
+            arq = new FileInputStream("Clientes.arq");
+            ObjectInputStream obj = new ObjectInputStream(arq);
+            
+            while(arq.available()>0)
+                clientes.add((Cliente)obj.readObject());
+            
+        }catch(FileNotFoundException erro){
+            erro.printStackTrace();
+            System.out.println("Tentativa de abrir o arquivo indicado para Leitura falhou!");
+        }catch(IOException erro){
+            erro.printStackTrace();
+            System.out.println("Algo ocorreu mal!");
+        }finally{
+            arq.close();
+        }
+        
+        //Encomendas
+        try{
+            arq = new FileInputStream("Encomendas.arq");
+            ObjectInputStream obj = new ObjectInputStream(arq);
+            
+            while(arq.available()>0)
+               encomendas.add((Encomenda)obj.readObject());
+            
+        }catch(FileNotFoundException erro){
+            erro.printStackTrace();
+            System.out.println("Tentativa de abrir o arquivo indicado para Leitura falhou!");
+        }catch(IOException erro){
+            erro.printStackTrace();
+            System.out.println("Algo ocorreu mal!!!");
+        }finally{
+            arq.close();
+        }
+        
+        /*//Promoções
+        try{
+            arq = new FileInputStream("Promocoes.arq");
+            ObjectInputStream obj = new ObjectInputStream(arq);
+            
+            while(arq.available()>0)
+                lista_Promocoes.add((Promocao)obj.readObject());
+            
+        }catch(FileNotFoundException erro){
+            erro.printStackTrace();
+            System.out.println("Tentativa de abrir o arquivo indicado para Leitura falhou!");
+        }catch(IOException erro){
+            erro.printStackTrace();
+            System.out.println("Algo ocorreu mal!");
+        }finally{
+            arq.close();
+        }*/
+    }
+    
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        ler();
         Scanner input = new Scanner(System.in);
         Scanner input2 = new Scanner(System.in);
         
-        //*Conjunto de arraulist para armazenar os objetos instanciados*
+        /*//*Conjunto de arraylist para armazenar os objetos instanciados*
         ArrayList<Produto> produtos = new ArrayList<>();
         ArrayList<Encomenda> encomendas = new ArrayList<>();
         ArrayList<Cliente> clientes = new ArrayList<>();
 
         Produto p;
         Cliente c;
-        Encomenda e = new Encomenda();
+        Encomenda e = new Encomenda();*/
 
         //*Variaveis para controlar os menus*
         int menu, menup, menue, menuc, menupro;
@@ -480,6 +644,7 @@ public class Loja {
                     break;
                 case 5:
                     System.out.println("\n\tAdeus!!\n\tEspero ter alcançado o objetivo proposto!");
+                    escrever();
                     break;
                 default:
                     System.err.println("Opção invalida");
