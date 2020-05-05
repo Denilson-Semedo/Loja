@@ -1,7 +1,9 @@
 
 package loja;
 
-public class Produto {
+import java.io.Serializable;
+
+public class Produto implements serializable{
 
     private int codigo;
     private String designacao;
