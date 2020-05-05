@@ -10,10 +10,11 @@ package loja;
  * @author Denilson
  */
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Encomenda {
+public class Encomenda implements serializable {
     
     private static ArrayList<Produto> Produtos = new ArrayList<>();
     
