@@ -5,11 +5,13 @@
  */
 package loja;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Denilson
  */
-public class Cliente {
+public class Cliente implements serializable {
     private String nome;
     private String email;
     private int telefone;
